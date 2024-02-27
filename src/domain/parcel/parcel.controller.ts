@@ -1,4 +1,10 @@
-import { BadRequestException, Body, Controller, Post } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  Post,
+} from '@nestjs/common';
 import { ParcelService } from './parcel.service';
 import { CreateParcel } from './model/create-parcel.dto';
 import { QueryFailedError } from 'typeorm';
@@ -32,5 +38,10 @@ export class ParcelController {
         }
       }
     }
+  }
+
+  @Get()
+  async getAllParcels() {
+    return await this.parcelService.getAll();
   }
 }

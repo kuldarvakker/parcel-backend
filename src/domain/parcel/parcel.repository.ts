@@ -18,4 +18,20 @@ export class ParcelRepository {
 
     return repository.save(newParcel);
   }
+
+  async findAll() {
+    return repository.find().then((it) =>
+      it.map((e) => {
+        return {
+          id: e.id,
+          sku: e.sku,
+          town: e.town,
+          country: e.country,
+          description: e.description,
+          deliveryDate: e.deliveryDate,
+          streetAddress: e.streetAddress,
+        };
+      }),
+    );
+  }
 }
