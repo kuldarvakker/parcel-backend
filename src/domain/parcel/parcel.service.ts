@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateParcel } from './model/create-parcel.dto';
 import { ParcelRepository } from './parcel.repository';
 import { Parcel } from './model/parcel.dto';
+import { GetAllParcelsQuery } from './model/get-all-parcels-query.dto';
 
 @Injectable()
 export class ParcelService {
@@ -12,7 +13,7 @@ export class ParcelService {
     return savedParcel.id;
   }
 
-  async getAll(): Promise<Parcel[]> {
-    return await this.parcelRepository.findAll();
+  async getAll(query: GetAllParcelsQuery): Promise<Parcel[]> {
+    return await this.parcelRepository.findAll(query);
   }
 }

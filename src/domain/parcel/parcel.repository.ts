@@ -2,6 +2,7 @@ import { ParcelEntity } from './parcel.entity';
 import { AppDataSource } from '../../data-source';
 import { Injectable } from '@nestjs/common';
 import { CreateParcel } from './model/create-parcel.dto';
+import { GetAllParcelsQuery } from './model/get-all-parcels-query.dto';
 
 const repository = AppDataSource.getRepository(ParcelEntity).extend({});
 
@@ -19,8 +20,26 @@ export class ParcelRepository {
     return repository.save(newParcel);
   }
 
-  async findAll() {
-    return repository.find().then((it) =>
+  async findAll(query: GetAllParcelsQuery) {
+    const selectQuery = repository.createQueryBuilder('parcels').select();
+
+    if (query.sortBy !== undefined) {
+      selectQuery.addOrderBy(query.sortBy, query.sortDirection);
+    }
+
+    if (query.country !== undefined) {
+      selectQuery.andWhere('parcels.country = :countryCode', {
+        countryCode: query.country,
+      });
+    }
+
+    if (query.description !== undefined) {
+      selectQuery.andWhere('parcels.description like :description', {
+        description: `%${query.description}%`,
+      });
+    }
+
+    return selectQuery.getMany().then((it) =>
       it.map((e) => {
         return {
           id: e.id,

@@ -4,6 +4,7 @@ import {
   Controller,
   Get,
   Post,
+  Query,
 } from '@nestjs/common';
 import { ParcelService } from './parcel.service';
 import { CreateParcel } from './model/create-parcel.dto';
@@ -11,6 +12,7 @@ import { QueryFailedError } from 'typeorm';
 import { DriverError } from '../../common/driver-error.dto';
 import { POSTGRES_ERROR_CODES } from '../../app.contants';
 import { ParcelEntity } from './parcel.entity';
+import { GetAllParcelsQuery } from './model/get-all-parcels-query.dto';
 
 @Controller('api/v1/parcels')
 export class ParcelController {
@@ -41,7 +43,7 @@ export class ParcelController {
   }
 
   @Get()
-  async getAllParcels() {
-    return await this.parcelService.getAll();
+  async getAllParcels(@Query() query: GetAllParcelsQuery) {
+    return await this.parcelService.getAll(query);
   }
 }
