@@ -4,8 +4,8 @@ import { V1Parcels1707760152473 } from '../migrations/1707760152473-V1Parcels';
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
-  host: 'localhost',
-  port: 5444,
+  host: 'db-shipping-app-postgres',
+  port: 5432,
   username: 'postgres',
   password: 'postgres',
   database: 'postgres',

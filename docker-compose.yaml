@@ -1,6 +1,26 @@
 version: '3.8'
 
 services:
+  frontend-shipping-app:
+    build: ../frontend
+    depends_on:
+      - backend-shipping-app
+    ports:
+      - "4200:4200"
+    networks:
+      - network-backend
+  backend-shipping-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db-shipping-app-postgres
+    ports:
+      - "3000:3000"
+    networks:
+      - network-backend
+    volumes:
+      - ./src:/app/src
   db-shipping-app-postgres:
     container_name: db-shipping-app-postgres
     image: postgres:latest
@@ -14,7 +34,11 @@ services:
         max-file: "3"
     ports:
       - "5444:5432"
+    networks:
+      - network-backend
     volumes:
       - db-shipping-app-postgres-volume:/var/lib/postgresql/data
+networks:
+  network-backend:
 volumes:
   db-shipping-app-postgres-volume:
