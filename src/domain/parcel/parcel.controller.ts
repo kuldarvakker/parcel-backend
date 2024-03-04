@@ -35,7 +35,7 @@ export class ParcelController {
           ParcelEntity.skuUniqueConstraint === constraint
         ) {
           throw new BadRequestException({
-            message: 'Parcel with the same sku value already exists',
+            message: ['Parcel with the same sku value already exists'],
           });
         }
       }
